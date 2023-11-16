@@ -3,6 +3,8 @@ from threading import Thread
 from game_model import GameModel
 from game_view import GameView
 from game_controller import GameController
+from threading import Lock
+import pickle
 
 # Create a socket object
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -25,7 +27,10 @@ server.bind((host, port))
 # Enable the server to accept connections
 server.listen(2)
 
-id_count = 0  # Initialize id_count
+
+id_count = 0
+lock = Lock()
+games = []
 print("Waiting for connection...")
 
 while True:
@@ -38,11 +43,16 @@ while True:
 
     if id_count % 2 == 1:
         game_model = GameModel(game_id)
+        games.append(game_model)  # Add the new game_model to the games list
         print("Creating a new Game...")
     else:
-        game_model = games[game_id]
-        game_model.game.ready = True
-        player = 1
+        if game_id < len(games):
+            game_model = games[game_id]
+            game_model.game.ready = True
+            player = 1
+        else:
+            print("Game ID is out of range")
+            continue  # Skip the rest of the loop iteration if game_id is out of range
 
     game_view = GameView(connection, player)
     game_controller = GameController(game_model, game_view, lock)

@@ -1,3 +1,4 @@
+import pickle
 class GameView:
     def __init__(self, connection, player):
         self.connection = connection
