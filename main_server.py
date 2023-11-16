@@ -8,7 +8,15 @@ from game_controller import GameController
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Define the host and the port on which the server will run
-host = 'localhost'
+
+
+host_name = socket.gethostname()
+
+# Obtener la dirección IP asociada al nombre del host
+direccion_ip = socket.gethostbyname(host_name)
+
+print("IP:", direccion_ip)
+host = direccion_ip
 port = 5555
 
 # Bind the server to the specified host and port
