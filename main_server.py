@@ -15,7 +15,7 @@ host_name = socket.gethostname()
 # Obtener la dirección IP asociada al nombre del host
 direccion_ip = socket.gethostbyname(host_name)
 
-print("IP:", direccion_ip)
+print("Direccion IP servidor:", direccion_ip)
 host = direccion_ip
 port = 5555
 
